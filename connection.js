@@ -57,26 +57,20 @@ function setService() {
 function setCharacteristics() {
   return new Promise(function(resolve, reject) {
           
-    // reconnect(0).then(_ => {      
-    //   service.getCharacteristic('temperature').then(c => {
-    //     characteristics['temperature'] = c;
-    //     service.getCharacteristic('temperature_type').then(c => {
-    //       characteristics['temperature_type'] = c;
-    //       console.log('> Characteristics saved');
-    //       resolve();
-    //     })
-    //   })
-    // })
     reconnect(0).then(_ => {      
-      service.getCharacteristic('temperature').then(c => {
+      service.getCharacteristic('temperature').then(c => { // temperature characteristic
         characteristics['temperature'] = c;
-        service.getCharacteristic('temperature_type').then(c => {
+        service.getCharacteristic('temperature_type').then(c => { // temperature type characteristic
           characteristics['temperature_type'] = c;
-          service.getCharacteristic('000025cd-0000-1000-8000-00805f9b34fb').then(c => {
+          service.getCharacteristic('000025cd-0000-1000-8000-00805f9b34fb').then(c => { // LED characteristic
             characteristics['000025cd-0000-1000-8000-00805f9b34fb'] = c;
-            service.getCharacteristic('0000d64c-0000-1000-8000-00805f9b34fb').then(c => {
+            service.getCharacteristic('0000d64c-0000-1000-8000-00805f9b34fb').then(c => { // gate characteristic
               characteristics['0000d64c-0000-1000-8000-00805f9b34fb'] = c;
-              console.log('> Characteristics saved');
+              console.log("> Characteristics saved");
+              resolve();
+            })
+            .catch(_ => { // Gate characteristic not defined
+              console.log("> Characteristics saved (gate not available)");
               resolve();
             })
           })
